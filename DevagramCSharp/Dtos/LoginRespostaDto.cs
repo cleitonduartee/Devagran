@@ -1,4 +1,4 @@
-﻿namespace DevagramCSharp.Controllers.Dtos
+﻿namespace DevagramCSharp.Dtos
 {
     public class LoginRespostaDto
     {
