@@ -54,6 +54,11 @@ namespace DevagramCSharp.Services.Impl
             return Pacote<LoginRespostaDto>.Sucess(LoginResposta);        
         }
 
+        public Usuario GetUsuarioPorID(int id)
+        {
+            return _repository.BuscarPorID(id);
+        }
+
         private List<string> ValidarDto(UsuarioDto usuarioDto)
         {
             var validacoes = new List<string>();

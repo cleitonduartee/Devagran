@@ -10,15 +10,10 @@ namespace DevagramCSharp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class LoginController : ControllerBase
+    public class LoginController : BaseController
     {
-        private readonly ILogger<LoginController> _logger;
-        private readonly IUsuarioService _usuarioService;
-
-        public LoginController(ILogger<LoginController> logger, IUsuarioService usuarioService)
+        public LoginController(IUsuarioService usuarioService) : base(usuarioService)
         {
-            _logger = logger;
-            _usuarioService = usuarioService;
         }
 
         [HttpPost]
