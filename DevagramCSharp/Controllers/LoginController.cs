@@ -1,6 +1,6 @@
 ﻿using DevagramCSharp.Dtos;
 using DevagramCSharp.Models;
-using DevagramCSharp.Services;
+using DevagramCSharp.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

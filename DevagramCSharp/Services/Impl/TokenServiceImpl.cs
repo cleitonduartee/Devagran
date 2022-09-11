@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace DevagramCSharp.Services
+namespace DevagramCSharp.Services.Impl
 {
     public class TokenServiceImpl
     {

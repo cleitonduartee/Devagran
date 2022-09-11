@@ -12,12 +12,12 @@ namespace DevagramCSharp.Controllers
     public class UsuarioController : BaseController
     {
         public readonly ILogger<UsuarioController> _logger;
-        private readonly UsuarioService _usuarioService;
+        private readonly IUsuarioService _usuarioService;
 
-        public UsuarioController(ILogger<UsuarioController> logger, IUsuarioRepository repository)
+        public UsuarioController(ILogger<UsuarioController> logger, IUsuarioService iusuarioService)
         {
             _logger = logger;
-            _usuarioService = new UsuarioService(repository);
+            _usuarioService = iusuarioService;
         }
 
         [HttpGet]
@@ -44,32 +44,9 @@ namespace DevagramCSharp.Controllers
         }
         [HttpPost("SalvarUsuario")]
         [AllowAnonymous]
-        public IActionResult SalvarUsuario([FromBody] Usuario usuario)
+        public IActionResult SalvarUsuario([FromBody] UsuarioDto usuarioDto)
         {
-            try
-            {
-                _usuarioService.usuario = usuario;
-                _usuarioService.EstadoValido();
-                if (!_usuarioService.EhValido)
-                    return BadRequest(new ErrorRespostaDto()
-                    {
-                        Status = StatusCodes.Status400BadRequest,
-                        Descricao = "Erro de Validação.",
-                        Errors = _usuarioService.ObterMensagnes()
-                    });
-                
-                return Ok(_usuarioService.Salvar());
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Ocorreu um erro ao salvar usuário: " + ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorRespostaDto()
-                {
-                    Descricao = "Ocorreu o seguinte erro: " + ex.Message,
-                    Status = StatusCodes.Status500InternalServerError
-                });
-            }
+            return Ok(_usuarioService.CadastrarUsuario(usuarioDto));
         }
-
     }
 }
