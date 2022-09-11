@@ -1,4 +1,6 @@
 ﻿using DevagramCSharp.Models;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace DevagramCSharp.Repository.Impl
 {
@@ -58,6 +60,10 @@ namespace DevagramCSharp.Repository.Impl
         {
             _DevagramContext.Set<Entity>().Add(entity);
             return SalvarAlteracoes();
+        }
+        public Entity BuscarSomente(Expression<Func<Entity, bool>> expression)
+        {
+            return _DevagramContext.Set<Entity>().Where(expression).FirstOrDefault();
         }
 
         protected bool SalvarAlteracoes()

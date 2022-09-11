@@ -36,6 +36,23 @@ namespace DevagramCSharp.Services.Impl
             return Pacote<UsuarioDto>.Error(EStatusCode.ERR_INTERNO, "Erro ao salvar Usuário");
                 
         }
+        public Pacote<LoginRespostaDto> EfetuarLogin(LoginRequisicaoDto login)
+        {
+            if (String.IsNullOrEmpty(login.Email) || String.IsNullOrEmpty(login.Senha))
+                return Pacote<LoginRespostaDto>.Error(EStatusCode.ERRO_VALIDACAO, "Informe o e-mail e senha.");
+
+            var usuario = _repository.BuscarSomente(x => x.Email.Equals(login.Email) && x.Senha.Equals(MD5Utils.GerarHashMD5(login.Senha)));
+            if (usuario == null)
+                return Pacote<LoginRespostaDto>.Error(EStatusCode.ERRO_AUTENTICACAO, "Usuário ou senha inválida.");
+
+            var LoginResposta = new LoginRespostaDto()
+            {
+                Nome = usuario.Nome,
+                Email = usuario.Email,
+                Token = TokenServiceImpl.CriarToken(usuario)
+            };
+            return Pacote<LoginRespostaDto>.Sucess(LoginResposta);        
+        }
 
         private List<string> ValidarDto(UsuarioDto usuarioDto)
         {

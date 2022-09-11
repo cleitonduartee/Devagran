@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using DevagramCSharp.Models;
+using System.Linq.Expressions;
 
 namespace DevagramCSharp.Repository
 {
@@ -9,5 +10,6 @@ namespace DevagramCSharp.Repository
         public bool Excluir(Entity entity);
         public  Entity BuscarPorID(int id);
         public List<Entity> BuscarTodos();
+        public Entity BuscarSomente(Expression<Func<Entity, bool>> expression);      
     }
 }

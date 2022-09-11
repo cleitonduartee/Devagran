@@ -1,4 +1,6 @@
 ﻿using DevagramCSharp.Models;
+using System.Data.Entity;
+using System.Linq.Expressions;
 
 namespace DevagramCSharp.Repository.Impl
 {

@@ -1,4 +1,5 @@
 ﻿using DevagramCSharp.Dtos;
+using DevagramCSharp.Enumerators;
 using DevagramCSharp.Models;
 using DevagramCSharp.Repository;
 using DevagramCSharp.Services;
@@ -23,30 +24,22 @@ namespace DevagramCSharp.Controllers
         [HttpGet]
         public IActionResult ObterUsuario()
         {
-            try
+            Usuario usuario = new Usuario()
             {
-                Usuario usuario = new Usuario()
-                {
-                    Nome = "Cleiton DUarte",
-                    Email = "teste@devaria.com.br",
-                    Id = 100
-                };
-                return Ok(usuario);
-            }catch(Exception ex)
-            {
-                _logger.LogError("Ocorreu um erro ao obter usuário: " + ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorRespostaDto()
-                {
-                    Descricao = "Ocorreu o seguinte erro: "+ ex.Message,
-                    Status = StatusCodes.Status500InternalServerError
-                });
-            }
+                Nome = "Cleiton DUarte",
+                Email = "teste@devaria.com.br",
+                Id = 100
+            };
+            return Ok(usuario);
         }
         [HttpPost("SalvarUsuario")]
         [AllowAnonymous]
         public IActionResult SalvarUsuario([FromBody] UsuarioDto usuarioDto)
         {
-            return Ok(_usuarioService.CadastrarUsuario(usuarioDto));
+            var retorno = _usuarioService.CadastrarUsuario(usuarioDto);
+            if (EStatusCode.OK.Equals(retorno.StatusCode))
+                return Ok(retorno);
+            return BadRequest(retorno);
         }
     }
 }
