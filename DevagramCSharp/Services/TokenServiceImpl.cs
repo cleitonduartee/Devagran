@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DevagramCSharp.Services
 {
-    public class TokenService
+    public class TokenServiceImpl
     {
         public static string CriarToken(Usuario usuario)
         {

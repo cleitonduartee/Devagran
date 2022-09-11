@@ -40,7 +40,7 @@ namespace DevagramCSharp.Controllers
                         {
                             Email = usuario.Email,
                             Nome = usuario.Nome,
-                            Token = TokenService.CriarToken(usuario)
+                            Token = TokenServiceImpl.CriarToken(usuario)
                         });
                     }
                     return BadRequest(new ErrorRespostaDto()
