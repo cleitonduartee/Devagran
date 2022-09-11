@@ -28,6 +28,7 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepositoryImpl>();
 
 // Services
 builder.Services.AddScoped<IUsuarioService, UsuarioServiceImpl>();
+builder.Services.AddScoped<ICosmicService, CosmicServiceImpl>();
 
 // Mapper
 builder.Services.AddScoped<IUsuarioMapper, UsuarioMapper>();

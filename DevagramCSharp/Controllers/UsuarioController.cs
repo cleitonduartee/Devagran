@@ -27,7 +27,7 @@ namespace DevagramCSharp.Controllers
         }
         [HttpPost("SalvarUsuario")]
         [AllowAnonymous]
-        public IActionResult SalvarUsuario([FromBody] UsuarioDto usuarioDto)
+        public IActionResult SalvarUsuario([FromForm] UsuarioRequisicaoDto usuarioDto)
         {
             var retorno = _usuarioService.CadastrarUsuario(usuarioDto);
             if (EStatusCode.OK.Equals(retorno.StatusCode))

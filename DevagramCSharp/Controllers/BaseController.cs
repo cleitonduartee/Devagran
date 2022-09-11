@@ -27,7 +27,7 @@ namespace DevagramCSharp.Controllers
             if (string.IsNullOrEmpty(idUsuario))
                 return null;
 
-            return _usuarioMapper.MapearEntidadeParaDto(_usuarioService.GetUsuarioPorID(int.Parse(idUsuario)));
+            return _usuarioMapper.MapearEntidadeParaUsuarioDto(_usuarioService.GetUsuarioPorID(int.Parse(idUsuario)));
         }
     }
 }

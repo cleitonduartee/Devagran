@@ -13,24 +13,31 @@ namespace DevagramCSharp.Services.Impl
     {
         private readonly IUsuarioRepository _repository;
         private readonly IUsuarioMapper _usuarioMapper;
+        private readonly ICosmicService _cosmicService;
 
-        public UsuarioServiceImpl(IUsuarioRepository usuarioRepository, IUsuarioMapper usuarioMapper)
+        public UsuarioServiceImpl(IUsuarioRepository usuarioRepository, IUsuarioMapper usuarioMapper, ICosmicService cosmicService)
         {
             _repository = usuarioRepository;
-            _usuarioMapper = usuarioMapper; 
+            _usuarioMapper = usuarioMapper;
+            _cosmicService = cosmicService;   
         }
 
-        public Pacote<UsuarioDto> CadastrarUsuario(UsuarioDto usuarioDto)
+        public Pacote<UsuarioDto> CadastrarUsuario(UsuarioRequisicaoDto usuarioReqDto)
         {
-            var validacoes = ValidarDto(usuarioDto);
+            var validacoes = ValidarDto(usuarioReqDto);
             if (validacoes.Any())
                 return Pacote<UsuarioDto>.Error(EStatusCode.ERRO_VALIDACAO, validacoes);
             
-            var usuario = _usuarioMapper.MapearDtoParaEntidade(usuarioDto);
+            var usuario = _usuarioMapper.MapearDtoParaEntidade(usuarioReqDto);
+            usuario.UrlFotoPerfil = _cosmicService.EnviarImagem(new ImagemDto()
+            {
+                Nome = usuario.Nome.Replace(" ", ""),
+                Imagem = usuarioReqDto.FotoPerfil
+            }); 
             usuario.Senha = Utils.MD5Utils.GerarHashMD5(usuario.Senha);
             if (_repository.Salvar(usuario))
             {
-                usuarioDto = _usuarioMapper.MapearEntidadeParaDto(usuario);
+                var usuarioDto = _usuarioMapper.MapearEntidadeParaUsuarioDto(usuario);
                 return Pacote<UsuarioDto>.Sucess(usuarioDto);
             }
             return Pacote<UsuarioDto>.Error(EStatusCode.ERR_INTERNO, "Erro ao salvar Usuário");
@@ -59,7 +66,7 @@ namespace DevagramCSharp.Services.Impl
             return _repository.BuscarPorID(id);
         }
 
-        private List<string> ValidarDto(UsuarioDto usuarioDto)
+        private List<string> ValidarDto(UsuarioRequisicaoDto usuarioDto)
         {
             var validacoes = new List<string>();
             if (usuarioDto == null)
