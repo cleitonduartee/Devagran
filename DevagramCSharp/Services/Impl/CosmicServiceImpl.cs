@@ -8,7 +8,7 @@ namespace DevagramCSharp.Services.Impl
     {
         public string EnviarImagem(ImagemDto imagemDto)
         {
-            var urlFotoDefault = "https://cdn3.iconfinder.com/data/icons/toolbar-people/512/user_problem_man_male_person_profile-512.png";
+            var urlFotoDefault = "https://cdn.cosmicjs.com/218fa790-32dc-11ed-8a37-f1952c73e588-default.png";
             var url = "https://upload.cosmicjs.com/v2/buckets/devaria-devagran/media";
             var token = "FXJi01f1X9t8d7g7guKaNbEchfAfkJSwfv135tQFUVHptpnS0Z";
             Stream imagem = imagemDto.Imagem.OpenReadStream();
@@ -33,7 +33,7 @@ namespace DevagramCSharp.Services.Impl
                 var cosmicRespostaDto = retorno.Content.ReadFromJsonAsync<CosmicRespostaDto>().Result;
                 return cosmicRespostaDto.media.url;
             }
-            catch(Exception e)
+            catch
             {
                 return urlFotoDefault;
             }

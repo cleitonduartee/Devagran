@@ -23,7 +23,7 @@ namespace DevagramCSharp.Controllers
         {
             var usuario = ObterUsuarioLogado();
             if (usuario == null)
-                return Unauthorized();
+                return Unauthorized("Por gentileza, fazer login novamente.");
             return Ok(_usuarioService.MapearEntidadeParaUsuarioDto(usuario));
         }
         [HttpPut("AtualizarUsuario")]
