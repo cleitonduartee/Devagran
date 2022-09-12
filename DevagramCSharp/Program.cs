@@ -25,10 +25,12 @@ builder.Services.AddDbContext<DevagramContext>(option => option.UseSqlServer(con
 
 // Repository
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepositoryImpl>();
+builder.Services.AddScoped<ISeguidorRepository, SeguidorRepositoryImpl>();
 
 // Services
 builder.Services.AddScoped<IUsuarioService, UsuarioServiceImpl>();
 builder.Services.AddScoped<ICosmicService, CosmicServiceImpl>();
+builder.Services.AddScoped<ISeguidorService, SeguidorServiceImpl>();
 
 // Mapper
 builder.Services.AddScoped<IUsuarioMapper, UsuarioMapper>();

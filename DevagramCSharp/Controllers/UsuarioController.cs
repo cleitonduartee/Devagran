@@ -30,10 +30,10 @@ namespace DevagramCSharp.Controllers
         public IActionResult AtualizarUsuario([FromForm] UsuarioRequisicaoDto usuarioDto)
         {
             var usuario = ObterUsuarioLogado();
-            var retorno = _usuarioService.AtualizarUsuario(usuarioDto, usuario);
-            if (EStatusCode.OK.Equals(retorno.StatusCode))
-                return Ok(retorno);
-            return BadRequest(retorno);
+            var pacote = _usuarioService.AtualizarUsuario(usuarioDto, usuario);
+            if (!EStatusCode.OK.Equals(pacote.StatusCode))
+                return Ok(pacote);
+            return BadRequest(pacote);
         }
 
         [HttpPost("SalvarUsuario")]
