@@ -1,6 +1,7 @@
 ﻿using DevagramCSharp.Dtos;
 using DevagramCSharp.Enumerators;
 using DevagramCSharp.IMapper;
+using DevagramCSharp.Mapper;
 using DevagramCSharp.Models;
 using DevagramCSharp.Repository;
 using DevagramCSharp.Services;
@@ -20,11 +21,21 @@ namespace DevagramCSharp.Controllers
         [HttpGet]
         public IActionResult ObterUsuario()
         {
-            var usuarioDto = LerToken();
-            if (usuarioDto == null)
+            var usuario = ObterUsuarioLogado();
+            if (usuario == null)
                 return Unauthorized();
-            return Ok(usuarioDto);
+            return Ok(_usuarioService.MapearEntidadeParaUsuarioDto(usuario));
         }
+        [HttpPut("AtualizarUsuario")]
+        public IActionResult AtualizarUsuario([FromForm] UsuarioRequisicaoDto usuarioDto)
+        {
+            var usuario = ObterUsuarioLogado();
+            var retorno = _usuarioService.AtualizarUsuario(usuarioDto, usuario);
+            if (EStatusCode.OK.Equals(retorno.StatusCode))
+                return Ok(retorno);
+            return BadRequest(retorno);
+        }
+
         [HttpPost("SalvarUsuario")]
         [AllowAnonymous]
         public IActionResult SalvarUsuario([FromForm] UsuarioRequisicaoDto usuarioDto)

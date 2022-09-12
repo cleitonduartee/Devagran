@@ -22,9 +22,32 @@ namespace DevagramCSharp.Services.Impl
             _cosmicService = cosmicService;   
         }
 
+        public Pacote<UsuarioDto> AtualizarUsuario(UsuarioRequisicaoDto usuarioReqDto, Usuario usuarioDB)
+        {
+            var validacoes = ValidarDto(usuarioReqDto, true);
+            if (validacoes.Any())
+                return Pacote<UsuarioDto>.Error(EStatusCode.ERRO_VALIDACAO, validacoes);
+                        
+            if(usuarioDB == null)
+                return Pacote<UsuarioDto>.Error(EStatusCode.NAO_ENCONTRADO, "Usuário não encontrado.");
+
+
+            usuarioDB.Nome = usuarioReqDto.Nome;
+            usuarioDB.UrlFotoPerfil = _cosmicService.EnviarImagem(new ImagemDto(){
+                Nome = usuarioReqDto.Nome,
+                Imagem = usuarioReqDto.FotoPerfil,
+            });
+
+            if(!_repository.Atualizar(usuarioDB))
+                return Pacote<UsuarioDto>.Error(EStatusCode.ERR_INTERNO, "Erro ao atualizar Usuário");
+
+            var usuarioDto = _usuarioMapper.MapearEntidadeParaUsuarioDto(usuarioDB);
+            return Pacote<UsuarioDto>.Sucess(usuarioDto);
+        }
+
         public Pacote<UsuarioDto> CadastrarUsuario(UsuarioRequisicaoDto usuarioReqDto)
         {
-            var validacoes = ValidarDto(usuarioReqDto);
+            var validacoes = ValidarDto(usuarioReqDto, false);
             if (validacoes.Any())
                 return Pacote<UsuarioDto>.Error(EStatusCode.ERRO_VALIDACAO, validacoes);
             
@@ -35,13 +58,11 @@ namespace DevagramCSharp.Services.Impl
                 Imagem = usuarioReqDto.FotoPerfil
             }); 
             usuario.Senha = Utils.MD5Utils.GerarHashMD5(usuario.Senha);
-            if (_repository.Salvar(usuario))
-            {
-                var usuarioDto = _usuarioMapper.MapearEntidadeParaUsuarioDto(usuario);
-                return Pacote<UsuarioDto>.Sucess(usuarioDto);
-            }
-            return Pacote<UsuarioDto>.Error(EStatusCode.ERR_INTERNO, "Erro ao salvar Usuário");
-                
+            if (!_repository.Salvar(usuario))
+                return Pacote<UsuarioDto>.Error(EStatusCode.ERR_INTERNO, "Erro ao salvar Usuário");
+
+            var usuarioDto = _usuarioMapper.MapearEntidadeParaUsuarioDto(usuario);
+            return Pacote<UsuarioDto>.Sucess(usuarioDto);
         }
         public Pacote<LoginRespostaDto> EfetuarLogin(LoginRequisicaoDto login)
         {
@@ -66,7 +87,13 @@ namespace DevagramCSharp.Services.Impl
             return _repository.BuscarPorID(id);
         }
 
-        private List<string> ValidarDto(UsuarioRequisicaoDto usuarioDto)
+        public Pacote<UsuarioDto> MapearEntidadeParaUsuarioDto(Usuario usuario)
+        {
+            var usuarioDto = _usuarioMapper.MapearEntidadeParaUsuarioDto(usuario);
+            return Pacote<UsuarioDto>.Sucess(usuarioDto);
+        }
+
+        private List<string> ValidarDto(UsuarioRequisicaoDto usuarioDto, bool ehEdicao)
         {
             var validacoes = new List<string>();
             if (usuarioDto == null)
@@ -75,13 +102,13 @@ namespace DevagramCSharp.Services.Impl
             if (string.IsNullOrEmpty(usuarioDto.Nome) || string.IsNullOrWhiteSpace(usuarioDto.Nome))
                 validacoes.Add("Nome do usuário inválido.");
 
-            if (string.IsNullOrEmpty(usuarioDto.Senha) || string.IsNullOrWhiteSpace(usuarioDto.Senha))
+            if (!ehEdicao && (string.IsNullOrEmpty(usuarioDto.Senha) || string.IsNullOrWhiteSpace(usuarioDto.Senha)))
                 validacoes.Add("Senha não informada.");
 
-            if (string.IsNullOrWhiteSpace(usuarioDto.Email) || !usuarioDto.Email.Contains("@"))
+            if (!ehEdicao && (string.IsNullOrWhiteSpace(usuarioDto.Email) || !usuarioDto.Email.Contains("@")))
                 validacoes.Add("E-mail inválido");
 
-            if (_repository.JaTemEsseEmail(usuarioDto.Email))
+            if (!ehEdicao && _repository.JaTemEsseEmail(usuarioDto.Email))
                 validacoes.Add("E-mail já está sendo usado.");
 
             return validacoes;
