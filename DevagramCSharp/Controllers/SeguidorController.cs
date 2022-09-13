@@ -18,8 +18,11 @@ namespace DevagramCSharp.Controllers
         [HttpPut()]
         public IActionResult Seguir(int idUsuarioSeguido)
         {
-            var idUsuarioSeguidor = ObterUsuarioLogado().Id;
-            var pacote =  _service.AtualizaSeguidor(idUsuarioSeguidor, idUsuarioSeguido);
+            var usuario = ObterUsuarioLogado();
+            if (usuario == null)
+                return Unauthorized("Por gentileza, fazer login novamente.");
+
+            var pacote =  _service.AtualizaSeguidor(usuario.Id, idUsuarioSeguido);
 
             if(EStatusCode.OK.Equals(pacote.StatusCode))
                 return Ok(pacote);

@@ -9,17 +9,23 @@ namespace DevagramCSharp.Services.Impl
     {
         private readonly IPublicacaoRepository _repository;
         private readonly ICosmicService _cosmicService;
-        public PublicacaoServiceImpl(IPublicacaoRepository repository, ICosmicService cosmicService)
+        private readonly ILogger<Publicacao> _logger;
+        public PublicacaoServiceImpl(IPublicacaoRepository repository, ICosmicService cosmicService, ILogger<Publicacao> logger)
         {
             _repository = repository;
             _cosmicService = cosmicService;
+            _logger = logger;
         }
 
         public Pacote<string> Publicar(PublicacaoRequisicaoDto publicacaoDto, int idUsuario)
         {
             var validacoes = ValidarDto(publicacaoDto);
-            if(validacoes.Any())
+            if (validacoes.Any())
+            {
+                _logger.LogError("Erro de validação.");
                 return Pacote<string>.Error(Enumerators.EStatusCode.ERRO_VALIDACAO, validacoes);
+            }
+                
 
             var publicacao = new Publicacao()
             {
@@ -38,7 +44,11 @@ namespace DevagramCSharp.Services.Impl
             }
 
             if (!_repository.Salvar(publicacao))
+            {
+                _logger.LogError("Erro ao tentar salvar publicação.");
                 return Pacote<string>.Error(Enumerators.EStatusCode.ERR_INTERNO, "Erro ao tentar salvar publicação.");
+            }
+                
 
             return Pacote<string>.Sucess("Publicação salva com sucesso.");
         }
