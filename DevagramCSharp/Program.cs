@@ -28,6 +28,7 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepositoryImpl>();
 builder.Services.AddScoped<ISeguidorRepository, SeguidorRepositoryImpl>();
 builder.Services.AddScoped<IPublicacaoRepository, PublicacaoRepositoryImpl>();
 builder.Services.AddScoped<IComentarioRepository, ComentarioRepositoryImpl>();
+builder.Services.AddScoped<ICurtidaRepository, CurtidaRepositoryImpl>();
 
 // Services
 builder.Services.AddScoped<IUsuarioService, UsuarioServiceImpl>();
@@ -35,6 +36,7 @@ builder.Services.AddScoped<ICosmicService, CosmicServiceImpl>();
 builder.Services.AddScoped<ISeguidorService, SeguidorServiceImpl>();
 builder.Services.AddScoped<IPublicacaoService, PublicacaoServiceImpl>();
 builder.Services.AddScoped<IComentarioService, ComentarioServiceImpl>();
+builder.Services.AddScoped<ICurtidaService, CurtidaServiceImpl>();
 
 // Mapper
 builder.Services.AddScoped<IUsuarioMapper, UsuarioMapper>();
