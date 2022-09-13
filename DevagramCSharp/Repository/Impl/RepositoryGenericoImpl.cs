@@ -1,4 +1,5 @@
 ﻿using DevagramCSharp.Models;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -65,7 +66,10 @@ namespace DevagramCSharp.Repository.Impl
         {
             return _contexto.Set<Entity>().Where(expression).FirstOrDefault();
         }
-
+        public List<Entity> BuscarTodosPor(Expression<Func<Entity, bool>> expression)
+        {
+            return _contexto.Set<Entity>().Where(expression).AsNoTracking().ToList();
+        }
         protected bool SalvarAlteracoes()
         {
             try

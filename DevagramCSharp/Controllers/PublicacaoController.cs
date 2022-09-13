@@ -27,5 +27,20 @@ namespace DevagramCSharp.Controllers
 
             return BadRequest(pacote);
         }
+
+        [HttpGet]
+        public IActionResult FeedHome()
+        {
+            var usuario = ObterUsuarioLogado();
+            if (usuario == null)
+                return Unauthorized("Por gentileza, fazer login novamente.");
+
+            var pacote = _publicacaoService.GetFeedHome(usuario.Id);
+
+            if (EStatusCode.OK.Equals(pacote.StatusCode))
+                return Ok(pacote);
+
+            return BadRequest(pacote);            
+        }
     }
 }

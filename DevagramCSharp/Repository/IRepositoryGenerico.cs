@@ -10,6 +10,7 @@ namespace DevagramCSharp.Repository
         public bool Excluir(Entity entity);
         public  Entity BuscarPorID(int id);
         public List<Entity> BuscarTodos();
-        public Entity BuscarSomente(Expression<Func<Entity, bool>> expression);      
+        public Entity BuscarSomente(Expression<Func<Entity, bool>> expression);     
+        public List<Entity> BuscarTodosPor(Expression<Func<Entity, bool>> expression);     
     }
 }
