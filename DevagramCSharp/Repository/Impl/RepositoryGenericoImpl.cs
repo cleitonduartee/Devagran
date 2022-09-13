@@ -7,16 +7,16 @@ namespace DevagramCSharp.Repository.Impl
     public class RepositoryGenericoImpl<Entity> : IRepositoryGenerico<Entity>, IDisposable
         where Entity : class, new()
     {
-        private readonly DevagramContext _DevagramContext;
+        protected readonly DevagramContext _contexto;
         private readonly ILogger<RepositoryGenericoImpl<Entity>> _logger;
         public RepositoryGenericoImpl(DevagramContext devagramContext, ILogger<RepositoryGenericoImpl<Entity>> logger)
         {
-            _DevagramContext = devagramContext;
+            _contexto = devagramContext;
             _logger = logger;
         }
         public bool Atualizar(Entity entity)
         {
-            _DevagramContext.Set<Entity>().Update(entity);
+            _contexto.Set<Entity>().Update(entity);
             return SalvarAlteracoes();
         }
 
@@ -24,7 +24,7 @@ namespace DevagramCSharp.Repository.Impl
         {
             try
             {
-                return _DevagramContext.Set<Entity>().Find(id);
+                return _contexto.Set<Entity>().Find(id);
             }
             catch(Exception e)
             {
@@ -35,7 +35,7 @@ namespace DevagramCSharp.Repository.Impl
 
         public List<Entity> BuscarTodos()
         {
-            return _DevagramContext.Set<Entity>().ToList();
+            return _contexto.Set<Entity>().ToList();
         }
 
         public void Dispose()
@@ -45,32 +45,32 @@ namespace DevagramCSharp.Repository.Impl
         }
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposing || _DevagramContext == null) return;
+            if (!disposing || _contexto == null) return;
 
-            _DevagramContext.Dispose();
+            _contexto.Dispose();
         }
 
         public bool Excluir(Entity entity)
         {
-            _DevagramContext.Remove(entity);
+            _contexto.Remove(entity);
             return SalvarAlteracoes();
         }
 
         public bool Salvar(Entity entity)
         {
-            _DevagramContext.Set<Entity>().Add(entity);
+            _contexto.Set<Entity>().Add(entity);
             return SalvarAlteracoes();
         }
         public Entity BuscarSomente(Expression<Func<Entity, bool>> expression)
         {
-            return _DevagramContext.Set<Entity>().Where(expression).FirstOrDefault();
+            return _contexto.Set<Entity>().Where(expression).FirstOrDefault();
         }
 
         protected bool SalvarAlteracoes()
         {
             try
             {
-                _DevagramContext.SaveChanges();
+                _contexto.SaveChanges();
                 return true;
             }
             catch(Exception e)

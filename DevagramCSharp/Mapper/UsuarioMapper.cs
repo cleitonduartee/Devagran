@@ -6,7 +6,7 @@ namespace DevagramCSharp.Mapper
 {
     public class UsuarioMapper : IUsuarioMapper
     {
-        public Usuario MapearDtoParaEntidade(UsuarioDto src)
+        public Usuario MapearDtoParaEntidade(UsuarioRequisicaoDto src)
         {
             return new Usuario()
             {
@@ -16,14 +16,19 @@ namespace DevagramCSharp.Mapper
             };
         }
 
-        public UsuarioDto MapearEntidadeParaDto(Usuario src)
+        public UsuarioDto MapearEntidadeParaUsuarioDto(Usuario src)
         {
             return new UsuarioDto()
             {
                 Nome = src.Nome,
                 Email = src.Email,
-                Senha = "****",
+                UrlFotoPerfil = src.UrlFotoPerfil
             };
+        }
+
+        public UsuarioRequisicaoDto MapearEntidadeParaDto(Usuario src)
+        {
+            throw new NotImplementedException();
         }
     }
 }

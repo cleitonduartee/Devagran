@@ -20,10 +20,10 @@ namespace DevagramCSharp.Controllers
         [AllowAnonymous]
         public IActionResult EfetuarLogin([FromBody] LoginRequisicaoDto login)
         {
-            var retorno = _usuarioService.EfetuarLogin(login); 
-            if (EStatusCode.OK.Equals(retorno.StatusCode))
-                return Ok(retorno);
-            return BadRequest(retorno);            
+            var pacote = _usuarioService.EfetuarLogin(login); 
+            if (EStatusCode.OK.Equals(pacote.StatusCode))
+                return Ok(pacote);
+            return BadRequest(pacote);            
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using DevagramCSharp.Dtos;
-using DevagramCSharp.IMapper;
+﻿using DevagramCSharp.IMapper;
 using DevagramCSharp.Mapper;
 using DevagramCSharp.Models;
 using DevagramCSharp.Services;
@@ -20,14 +19,14 @@ namespace DevagramCSharp.Controllers
             _usuarioMapper = new UsuarioMapper();
         }
 
-        protected UsuarioDto? LerToken()
+        protected Usuario? ObterUsuarioLogado()
         {
             var idUsuario = User.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).FirstOrDefault();
 
             if (string.IsNullOrEmpty(idUsuario))
                 return null;
 
-            return _usuarioMapper.MapearEntidadeParaDto(_usuarioService.GetUsuarioPorID(int.Parse(idUsuario)));
+            return _usuarioService.GetUsuarioPorID(int.Parse(idUsuario));
         }
     }
 }
