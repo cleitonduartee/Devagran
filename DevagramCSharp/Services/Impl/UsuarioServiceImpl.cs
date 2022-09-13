@@ -24,20 +24,20 @@ namespace DevagramCSharp.Services.Impl
             _logger = logger;
         }
 
-        public Pacote<UsuarioDto> AtualizarUsuario(UsuarioRequisicaoDto usuarioReqDto, Usuario usuarioDB)
+        public Pacote<string> AtualizarUsuario(UsuarioRequisicaoDto usuarioReqDto, Usuario usuarioDB)
         {
             var validacoes = ValidarDto(usuarioReqDto, true);
             if (validacoes.Any())
             {
                 _logger.LogError("Erro de validação.");
-                return Pacote<UsuarioDto>.Error(EStatusCode.ERRO_VALIDACAO, validacoes);
+                return Pacote<string>.Error(EStatusCode.ERRO_VALIDACAO, validacoes);
             }
                 
                         
             if(usuarioDB == null)
             {
                 _logger.LogError("Usuário não encontrado.");
-                return Pacote<UsuarioDto>.Error(EStatusCode.NAO_ENCONTRADO, "Usuário não encontrado.");
+                return Pacote<string>.Error(EStatusCode.NAO_ENCONTRADO, "Usuário não encontrado.");
             }
                 
 
@@ -51,23 +51,20 @@ namespace DevagramCSharp.Services.Impl
             if (!_repository.Atualizar(usuarioDB))
             {
                 _logger.LogError("Erro ao atualizar Usuário.");
-                return Pacote<UsuarioDto>.Error(EStatusCode.ERR_INTERNO, "Erro ao atualizar Usuário.");
+                return Pacote<string>.Error(EStatusCode.ERR_INTERNO, "Erro ao atualizar Usuário.");
             }
                 
-
-            var usuarioDto = _usuarioMapper.MapearEntidadeParaUsuarioDto(usuarioDB);
-            return Pacote<UsuarioDto>.Sucess(usuarioDto);
+            return Pacote<string>.Sucess("Usuário atualizado com sucesso.");
         }
 
-        public Pacote<UsuarioDto> CadastrarUsuario(UsuarioRequisicaoDto usuarioReqDto)
+        public Pacote<string> CadastrarUsuario(UsuarioRequisicaoDto usuarioReqDto)
         {
             var validacoes = ValidarDto(usuarioReqDto, false);
             if (validacoes.Any())
             {
                 _logger.LogError("Erro de validação.");
-                return Pacote<UsuarioDto>.Error(EStatusCode.ERRO_VALIDACAO, validacoes);
-            }
-                
+                return Pacote<string>.Error(EStatusCode.ERRO_VALIDACAO, validacoes);
+            }                
             
             var usuario = _usuarioMapper.MapearDtoParaEntidade(usuarioReqDto);
             usuario.UrlFotoPerfil = _cosmicService.EnviarImagem(new ImagemDto()
@@ -79,12 +76,9 @@ namespace DevagramCSharp.Services.Impl
             if (!_repository.Salvar(usuario))
             {
                 _logger.LogError("Erro ao salvar Usuário.");
-                return Pacote<UsuarioDto>.Error(EStatusCode.ERR_INTERNO, "Erro ao salvar Usuário.");
-            }
-                
-
-            var usuarioDto = _usuarioMapper.MapearEntidadeParaUsuarioDto(usuario);
-            return Pacote<UsuarioDto>.Sucess(usuarioDto);
+                return Pacote<string>.Error(EStatusCode.ERR_INTERNO, "Erro ao salvar Usuário.");
+            }                
+            return Pacote<string>.Sucess("Usuário cadastrado com sucesso.");
         }
         public Pacote<LoginRespostaDto> EfetuarLogin(LoginRequisicaoDto login)
         {

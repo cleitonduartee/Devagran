@@ -7,5 +7,6 @@ namespace DevagramCSharp.Services
     public interface IPublicacaoService
     {
         public Pacote<string> Publicar(PublicacaoRequisicaoDto publicacaoDto, int idUsuario);
+        public Pacote<List<PublicacaoFeedRespostaDto>> GetFeedHome(int idUsuario);
     }
 }
