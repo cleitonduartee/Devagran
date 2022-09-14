@@ -1,10 +1,17 @@
-# 👨‍💻 DEVAGRAM 👨‍💻
+# ![instagram](https://user-images.githubusercontent.com/58410509/190059271-6f5549c2-42ae-4541-ae28-8983fe9cf57f.png) DEVAGRAM ![instagram](https://user-images.githubusercontent.com/58410509/190059271-6f5549c2-42ae-4541-ae28-8983fe9cf57f.png)
 
 
-- [x] **Criar um banco chamado _DevagramDB_**
-- [x] **No arquivo appsettings.json inserir string de conexao em: _DefaultConnection_**
-- [x] **No CMD  rodar o Comando: ```dotnet-ef database update``` para criar as tabelas no banco.**
-- [x] **Caso o comando ```dotnet-ef database update``` nao seja reconhecido, rodar o comando: ```dotnet tool install --global dotnet-ef```**
+### API é uma imitação do _Instagram_. 😃😃
+### Foi desenvolvida através do curso de C# disponível gratuitamente na plataforma [_Devaria_](https://www.devaria.com.br/).
+### Durante o curso eu realizei algumas mudanças em relação ao que foi apresentado para assim ter um implementação pessoal 👨‍💻👨‍💻
+
+_________________________________________________________________________________________________________________________________
+> ### Ao clonar esse projeto execultar os seguintes passo a passo abaixo
+> - [x] **Criar um banco chamado _DevagramDB_**
+> - [x] **No arquivo appsettings.json inserir string de conexao em: _DefaultConnection_**
+> - [x] **No CMD  rodar o Comando: ```dotnet-ef database update``` para criar as tabelas no banco.**
+> - [x] **Caso o comando ```dotnet-ef database update``` nao seja reconhecido, rodar o comando: ```dotnet tool install --global dotnet-ef```    para instalar o dotnet CLI. Depois rodar novamente o comando ```dotnet-ef database update```para criar as tabelas no banco.**
+_________________________________________________________________________________________________________________________________
 
 
 [![git](https://img.shields.io/badge/-Github-000?style=for-the-badge&logo=Github)](https://github.com/cleitonduartee)
