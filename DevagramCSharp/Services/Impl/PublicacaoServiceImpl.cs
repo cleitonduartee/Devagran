@@ -74,6 +74,12 @@ namespace DevagramCSharp.Services.Impl
 
             return Pacote<string>.Sucess("Publicação salva com sucesso.");
         }
+
+        public int QtdPublicacaoPorUsuario(int idUsuario)
+        {
+            return _repository.BuscarTodosPor(p => p.IdUsuario.Equals(idUsuario)).Count;            
+        }
+
         public List<string> ValidarDto(PublicacaoRequisicaoDto dto)
         {
             var validacoes = new List<string>();

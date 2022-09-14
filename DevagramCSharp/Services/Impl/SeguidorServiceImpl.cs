@@ -44,5 +44,15 @@ namespace DevagramCSharp.Services.Impl
 
             return Pacote<string>.Sucess("Ação cadastrada com sucesso!");
         }
+
+        public int QtdSeguidorPorUsuario(int idUsuario)
+        {
+            return _repository.BuscarTodosPor(u => u.IdUsuarioSeguido.Equals(idUsuario)).Count;
+        }
+
+        public int QtdUsuarioEstaSeguindo(int idUsuario)
+        {
+            return _repository.BuscarTodosPor(u => u.IdUsuarioSeguidor.Equals(idUsuario)).Count;
+        }
     }
 }

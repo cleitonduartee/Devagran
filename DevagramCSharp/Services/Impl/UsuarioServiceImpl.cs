@@ -14,13 +14,18 @@ namespace DevagramCSharp.Services.Impl
         private readonly IUsuarioRepository _repository;
         private readonly IUsuarioMapper _usuarioMapper;
         private readonly ICosmicService _cosmicService;
+        private readonly IPublicacaoService _publicacaoService;
+        private readonly ISeguidorService _seguidorService;
         private readonly ILogger<Usuario> _logger;
 
-        public UsuarioServiceImpl(IUsuarioRepository usuarioRepository, IUsuarioMapper usuarioMapper, ICosmicService cosmicService, ILogger<Usuario> logger)
+        public UsuarioServiceImpl(IUsuarioRepository usuarioRepository, IUsuarioMapper usuarioMapper, ICosmicService cosmicService,
+                                  IPublicacaoService publicacaoService, ISeguidorService seguidorService, ILogger<Usuario> logger)
         {
             _repository = usuarioRepository;
             _usuarioMapper = usuarioMapper;
             _cosmicService = cosmicService; 
+            _publicacaoService = publicacaoService;
+            _seguidorService = seguidorService;
             _logger = logger;
         }
 
@@ -80,6 +85,18 @@ namespace DevagramCSharp.Services.Impl
             }                
             return Pacote<string>.Sucess("Usuário cadastrado com sucesso.");
         }
+
+        public void ConfigUsuarioPesquisa(ref UsuarioRespostaPesquisaDto usuarioDto)
+        {
+            var qtdPublic = _publicacaoService.QtdPublicacaoPorUsuario(usuarioDto.Id);
+            var qtdSeguidores = _seguidorService.QtdSeguidorPorUsuario(usuarioDto.Id);
+            var qtdSeguindo = _seguidorService.QtdUsuarioEstaSeguindo(usuarioDto.Id);
+
+            usuarioDto.QtdPublicacoes = qtdPublic;
+            usuarioDto.QtdSeguindo = qtdSeguindo;
+            usuarioDto.QtdSeguidores = qtdSeguidores;
+        }
+
         public Pacote<LoginRespostaDto> EfetuarLogin(LoginRequisicaoDto login)
         {
             if (String.IsNullOrEmpty(login.Email) || String.IsNullOrEmpty(login.Senha))
@@ -109,6 +126,10 @@ namespace DevagramCSharp.Services.Impl
         public Usuario GetUsuarioPorID(int id)
         {
             return _repository.BuscarPorID(id);
+        }
+        public List<Usuario> GetUsuarioPorNome(string nome)
+        {
+            return _repository.BuscarTodosPor(c => c.Nome.Contains(nome));
         }
 
         public Pacote<UsuarioDto> MapearEntidadeParaUsuarioDto(Usuario usuario)
