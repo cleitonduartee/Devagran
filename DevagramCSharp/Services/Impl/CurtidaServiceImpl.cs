@@ -28,8 +28,8 @@ namespace DevagramCSharp.Services.Impl
             {
                 if (!_repository.Excluir(curtida))
                 {
-                    _logger.LogError("Erro ao descurtir publicação de id: " + curtida.IdPublicacao);
-                    return Pacote<string>.Error(Enumerators.EStatusCode.ERR_INTERNO, "Erro ao descurtir publicação de id: " + curtida.IdPublicacao);
+                    _logger.LogError("Erro ao descurtir publicação.");
+                    return Pacote<string>.Error(Enumerators.EStatusCode.ERR_INTERNO, "Erro ao descurtir publicação.");
                 }
                 return Pacote<string>.Sucess("Descurtida salva com sucesso.");
             }
@@ -41,8 +41,8 @@ namespace DevagramCSharp.Services.Impl
             };
             if (!_repository.Salvar(curtida))
             {
-                _logger.LogError("Erro ao curtir publicação de id: " + curtida.IdPublicacao);
-                return Pacote<string>.Error(Enumerators.EStatusCode.ERR_INTERNO, "Erro ao descurtir publicação de id: " + curtida.IdPublicacao);
+                _logger.LogError("Erro ao curtir publicação.");
+                return Pacote<string>.Error(Enumerators.EStatusCode.ERR_INTERNO, "Erro ao descurtir publicação.");
             }
             return Pacote<string>.Sucess("Curtida salva com sucesso.");
         }
