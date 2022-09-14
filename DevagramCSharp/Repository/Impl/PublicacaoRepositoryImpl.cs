@@ -32,5 +32,27 @@ namespace DevagramCSharp.Repository.Impl
 
             return feed;
         }
+
+        public List<PublicacaoFeedRespostaDto> GetFeedUsuario(int idUsuario)
+        {
+            var feedUsuario = (from publicacao in _contexto.Publicacoes
+                               join usu in _contexto.Usuarios on publicacao.IdUsuario equals usu.Id
+                               where publicacao.IdUsuario == idUsuario
+                               select new PublicacaoFeedRespostaDto
+                               {
+                                   IdPublicacao = publicacao.Id,
+                                   Descricao = publicacao.Descricao,
+                                   UrlFoto = publicacao.UrlFotoPublicacao,
+                                   Usuario = new UsuarioDto
+                                   {
+                                       Id = usu.Id,
+                                       Nome = usu.Nome,
+                                       Email = usu.Email,
+                                       UrlFotoPerfil = usu.UrlFotoPerfil
+                                   }
+                               }).ToList();
+
+            return feedUsuario;
+        }
     }
 }
