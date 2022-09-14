@@ -3384,23 +3384,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\cdgoncalves\\.nuget\\packages\\": {},
+    "C:\\Users\\djcle\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cdgoncalves\\Desktop\\Cleiton\\Estudos\\Devaria\\DevagramCSharp\\DevagramCSharp\\DevagramCSharp.csproj",
+      "projectUniqueName": "C:\\Pasta Cleiton\\www\\Devagran\\Devagran\\DevagramCSharp\\DevagramCSharp.csproj",
       "projectName": "DevagramCSharp",
-      "projectPath": "C:\\Users\\cdgoncalves\\Desktop\\Cleiton\\Estudos\\Devaria\\DevagramCSharp\\DevagramCSharp\\DevagramCSharp.csproj",
-      "packagesPath": "C:\\Users\\cdgoncalves\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\cdgoncalves\\Desktop\\Cleiton\\Estudos\\Devaria\\DevagramCSharp\\DevagramCSharp\\obj\\",
+      "projectPath": "C:\\Pasta Cleiton\\www\\Devagran\\Devagran\\DevagramCSharp\\DevagramCSharp.csproj",
+      "packagesPath": "C:\\Users\\djcle\\.nuget\\packages\\",
+      "outputPath": "C:\\Pasta Cleiton\\www\\Devagran\\Devagran\\DevagramCSharp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\cdgoncalves\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\djcle\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

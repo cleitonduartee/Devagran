@@ -42,5 +42,19 @@ namespace DevagramCSharp.Controllers
 
             return BadRequest(pacote);            
         }
+        [HttpGet("{idUsuario}")]
+        public IActionResult FeedUsuario(int idUsuario)
+        {
+            var usuario = ObterUsuarioLogado();
+            if (usuario == null)
+                return Unauthorized("Por gentileza, fazer login novamente.");
+
+            var pacote = _publicacaoService.GetFeedUsuario(idUsuario);
+
+            if (EStatusCode.OK.Equals(pacote.StatusCode))
+                return Ok(pacote);
+
+            return BadRequest(pacote);
+        }
     }
 }

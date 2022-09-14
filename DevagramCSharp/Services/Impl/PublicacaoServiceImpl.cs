@@ -25,23 +25,17 @@ namespace DevagramCSharp.Services.Impl
 
         public Pacote<List<PublicacaoFeedRespostaDto>> GetFeedHome(int idUsuario)
         {
-           var pubFeed = _repository.GetFeedHome(idUsuario);
-            foreach(var feed in pubFeed)
-            {
-                var comentarios = _comentarioRepository
-                                   .BuscarTodosPor(c => c.IdPublicacao.Equals(feed.IdPublicacao))
-                                   .Select(c => new ComentarioDto { Id = c.Id, IdUsuario = c.IdUsuario, Descricao = c.Descricao })
-                                   .ToList();
-                                                        ;
-                var curtidas = _curtidaRepository
-                                .BuscarTodosPor(c => c.IdPublicacao.Equals(feed.IdPublicacao))
-                                .Select(c => new CurtidaDto { Id = c.Id, IdUsuario = c.IdUsuario})
-                                .ToList();
+            var pubFeed = _repository.GetFeedHome(idUsuario);
+            PopulaComentariosECurtidas(ref pubFeed);          
 
-                feed.Comentarios = comentarios;
-                feed.Curtidas = curtidas;
-            }
+            return Pacote<List<PublicacaoFeedRespostaDto>>.Sucess(pubFeed);
+        }
 
+        public Pacote<List<PublicacaoFeedRespostaDto>> GetFeedUsuario(int idUsuario)
+        {
+            var pubFeed = _repository.GetFeedUsuario(idUsuario);
+            PopulaComentariosECurtidas(ref pubFeed);
+            
             return Pacote<List<PublicacaoFeedRespostaDto>>.Sucess(pubFeed);
         }
 
@@ -95,6 +89,24 @@ namespace DevagramCSharp.Services.Impl
                 validacoes.Add("Foto é obrigatório na publicação.");
 
             return validacoes;
+        }
+        private void PopulaComentariosECurtidas(ref List<PublicacaoFeedRespostaDto> listPubFeed)
+        {
+            foreach (var feed in listPubFeed)
+            {
+                var comentarios = _comentarioRepository
+                                   .BuscarTodosPor(c => c.IdPublicacao.Equals(feed.IdPublicacao))
+                                   .Select(c => new ComentarioDto { Id = c.Id, IdUsuario = c.IdUsuario, Descricao = c.Descricao })
+                                   .ToList();
+                ;
+                var curtidas = _curtidaRepository
+                                .BuscarTodosPor(c => c.IdPublicacao.Equals(feed.IdPublicacao))
+                                .Select(c => new CurtidaDto { Id = c.Id, IdUsuario = c.IdUsuario })
+                                .ToList();
+
+                feed.Comentarios = comentarios;
+                feed.Curtidas = curtidas;
+            }
         }
     }
 }

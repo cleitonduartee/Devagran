@@ -22,8 +22,8 @@ namespace DevagramCSharp.Services.Impl
             {
                 if (!_repository.Excluir(seguidor))
                 {
-                    _logger.LogError("Erro ao tentar deixar de seguir a pessoa: " + seguidor.UsuarioSeguido.Nome);
-                    return Pacote<string>.Error(Enumerators.EStatusCode.ERR_INTERNO, "Erro ao tentar deixar de seguir a pessoa: " + seguidor.UsuarioSeguido.Nome);
+                    _logger.LogError("Erro ao tentar deixar de seguir a pessoa.");
+                    return Pacote<string>.Error(Enumerators.EStatusCode.ERR_INTERNO, "Erro ao tentar deixar de seguir a pessoa.");
                 }
                     
 
@@ -38,8 +38,8 @@ namespace DevagramCSharp.Services.Impl
 
             if (!_repository.Salvar(seguidor))
             {
-                _logger.LogError("Erro ao tentar seguir a pessoa: " + seguidor.UsuarioSeguido.Nome);
-                return Pacote<string>.Error(Enumerators.EStatusCode.ERR_INTERNO, "Erro ao tentar seguir a pessoa: " + seguidor.UsuarioSeguido.Nome);
+                _logger.LogError("Erro ao tentar seguir a pessoa." );
+                return Pacote<string>.Error(Enumerators.EStatusCode.ERR_INTERNO, "Erro ao tentar seguir a pessoa.");
             }                
 
             return Pacote<string>.Sucess("Ação cadastrada com sucesso!");
